@@ -141,10 +141,7 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: [
-              paths.appSrc,
-              path.join(paths.appNodeModules, 'better-react-components')
-            ],
+            include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
 
