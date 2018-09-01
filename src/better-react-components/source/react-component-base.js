@@ -83,7 +83,7 @@ export default class ReactComponentBase extends React.Component {
     });
 
     if (InstanceClass.propTypes) {
-      var resolvedProps = instance._resolveProps(props);
+      var resolvedProps = instance._resolveProps(props, props);
       PropTypes.checkPropTypes(InstanceClass.propTypes, resolvedProps, 'propType', this.getComponentName(), () => {
         var error = new Error();
         return error.stack;

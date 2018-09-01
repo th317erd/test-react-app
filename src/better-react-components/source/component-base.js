@@ -5,6 +5,8 @@ import {
 }                         from './utils';
 import { utils as U }     from 'evisit-js-utils';
 
+var componentIDCounter = 1;
+
 export default class ComponentBase {
   static getClassNamePrefix() {
     return 'application';
@@ -12,6 +14,12 @@ export default class ComponentBase {
 
   constructor(reactComponent, props) {
     Object.defineProperties(this, {
+      'id': {
+        writable: true,
+        enumerable: false,
+        configurable: true,
+        value: (props.id) ? props.id : `Component_${('' + (componentIDCounter++)).padStart(13, '0')}`
+      },
       '_renderCacheInvalid': {
         writable: true,
         enumerable: false,
@@ -250,6 +258,10 @@ export default class ComponentBase {
     this.componentWillUnmount();
   }
 
+  getID() {
+    return this.id;
+  }
+
   componentDidMount() {}
   componentWillUnmount() {}
 
@@ -259,6 +271,10 @@ export default class ComponentBase {
 
   getTheme() {
     return this.theme || this.context.theme;
+  }
+
+  forceUpdate(...args) {
+    return this._reactComponent.forceUpdate(...args);
   }
 
   freezeUpdates() {
@@ -330,6 +346,36 @@ export default class ComponentBase {
     return {
       ...props
     };
+  }
+
+  delay(func, time, _id) {
+    var id = (!_id) ? ('' + func) : _id;
+    if (!this._componentDelayTimers) {
+      Object.defineProperty(this, '_componentDelayTimers', {
+        writable: true,
+        enumerable: true,
+        configurable: true,
+        value: {}
+      });
+    }
+
+    if (this._componentDelayTimers[id])
+      clearTimeout(this._componentDelayTimers[id]);
+
+    this._componentDelayTimers[id] = setTimeout(() => {
+      this._componentDelayTimers[id] = null;
+      if (func instanceof Function)
+        func.call(this);
+    }, time || 250);
+
+    return id;
+  }
+
+  clearDelay(id) {
+    if (id == null || this._componentDelayTimers[id] == null)
+      return;
+
+    clearTimeout(this._componentDelayTimers[id]);
   }
 
   shouldComponentUpdate(newState, oldState) {

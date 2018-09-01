@@ -35,7 +35,7 @@ const App = componentFactory('App', ({ Parent, componentName }) => {
     componentDidMount() {
       this.intervalID = setInterval(() => {
         this.setState({ second: this.getState('second', 0) + 1 });
-      }, 1000);
+      }, 50);
     }
 
     componentWillUnmount() {
