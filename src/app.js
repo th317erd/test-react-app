@@ -14,10 +14,10 @@ const App = componentFactory('App', ({ Parent, componentName }) => {
     constructor(...args) {
       super(...args);
 
-      this.theme = new Theme({}, 'browser');
+      this.theme = new Theme({}, { platform: 'browser' });
     }
 
-    publishContext() {
+    provideContext() {
       return {
         theme: this.theme
       };
@@ -35,7 +35,7 @@ const App = componentFactory('App', ({ Parent, componentName }) => {
     componentDidMount() {
       this.intervalID = setInterval(() => {
         this.setState({ second: this.getState('second', 0) + 1 });
-      }, 50);
+      }, 250);
     }
 
     componentWillUnmount() {
@@ -49,7 +49,7 @@ const App = componentFactory('App', ({ Parent, componentName }) => {
         <div className={this.getRootClassName(componentName)}>
           <TextField ref={(elem) => {
             global.textField = elem;
-          }} second={() => second}>
+          }} second={second}>
             <Test/>
           </TextField>
         </div>

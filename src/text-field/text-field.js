@@ -15,16 +15,16 @@ const TextField = componentFactory('TextField', ({ Parent, componentName }) => {
       something: PropTypes.func
     };
 
-    render() {
-      var state = this.getState(),
-          { children, second } = state;
+    componentDidMount() {
+      console.log('THEME VIA CONTEXT: ', this.context.theme);
+    }
 
-      console.log('State!', state);
-
+    render(children) {
+      console.log('Second: ', this.props.second);
       return super.render(
         <div className={this.getRootClassName(componentName)} style={this.style('padding')}>
-          <span>{second}</span>
-          {children || null}
+          <span>{this.props.second}</span>
+          {this.getChildren(children)}
         </div>
       );
     }

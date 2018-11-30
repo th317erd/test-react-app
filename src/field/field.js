@@ -13,7 +13,7 @@ const Field = componentFactory('Field', ({ Parent, componentName }) => {
       test: PropTypes.number
     };
 
-    publishContext() {
+    provideContext() {
       return {
         stuff: 'things'
       };

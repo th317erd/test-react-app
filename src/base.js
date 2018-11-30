@@ -1,11 +1,18 @@
 import React          from 'react';
-export {
+import {
   PropTypes,
   Theme,
   componentFactory,
-  createStyleSheet,
-}                     from './better-react-components';
+  StyleSheetBuilder,
+}                     from './react-ameliorate';
+
+const createStyleSheet = StyleSheetBuilder.createStyleSheet;
 
 export {
-  React
+  React,
+  PropTypes,
+  Theme,
+  componentFactory,
+  StyleSheetBuilder,
+  createStyleSheet
 };
